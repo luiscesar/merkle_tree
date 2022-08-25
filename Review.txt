@@ -47,7 +47,7 @@ group of elements that collaborate to realize responsibilities (functions).
 - Unit tests in a module   
 
   It may be helpful to describe Types and its Unit Tests in different files, 
-  in order to have a better readiness as the Type declaration grows.   
+  in order to have a better readiness as the Type declaration (set of functions) grows.   
   In Rust this can achieved writing the tests in a submodule of the Type and 
   marking it with the directive #[cfg(test)]    
 
