@@ -1,5 +1,11 @@
 Code Review
--  Test test_generate_path_1 failed   
+
+- The tree functions are implemented in a very efficient way. 
+- The function declarations are clear and well commented.
+- There is a resistence test that shows the robustness of the function 
+  that generates the tree under heavy loads.
+
+- Test test_generate_path_1 failed   
 
    Because the required path is bottom-up and no top-down.  
    In order to fix it, in lines 292 and 294: use push instead of insert
@@ -11,29 +17,42 @@ Code Review
 
 - Library crate   
    
-   It may be helpful to structure the project as a library that can be used in order crates (microservices, software components)
+   It may be helpful to structure the project as a library 
+   that can be used in other crates (microservices, software components)
 
 
 - Loops instead of recursive calls  
 
-  Recursive calls are very expressive but Tail Call Optimization is not implemented in Rust.   That means even if the the recursive call is a tail recursive, all recursive calls are stored in the Stack,   with the risk of having StackOverflow.
+  Recursive calls are very expressive but Tail Call Optimization is not implemented in Rust.   
+  That means even if the recursive call is a tail recursive one (as it is in this case), 
+  all recursive calls are stored in the Stack, with the risk of having StackOverflow.
 
 
 - Abstract Data Type definition  
 
-  Using Abstract Data Types (ADT) may help to utilize separation of concerns during the design process.  Each ADT will describe a set of responsibilities: functions.  In Rust, Traits can be used to describe ADT.  In order to use Traits the types have to be expressed using struct or enum.
+  Using Abstract Data Types (ADT) may help to utilize separation of concerns 
+  during the design process.  
+  Each ADT will describe a set of responsibilities: functions.  
+  In Rust, Traits can be used to describe ADTs.  
+  In order to use Traits the types have to be expressed using struct or enum.
 
 
 - Software components: Module structure
 
-   It may be helpful to split the project into different software components: group of elements that collaborate to realize responsibilities (functions).   In Rust this can be achieved using modules.
+   It may be helpful to split the project into different software components: 
+group of elements that collaborate to realize responsibilities (functions).
+   In Rust this can be achieved using modules.
 
 
 - Unit tests in a module   
 
-  It may be helpful to describe Types and its Unit Tests in different files, in order to have a better readiness as the Type declaration grows.   In Rust this can achieved writing the tests in a submodule of the Type and marking it with the directive #[cfg(test)]    
+  It may be helpful to describe Types and its Unit Tests in different files, 
+  in order to have a better readiness as the Type declaration grows.   
+  In Rust this can achieved writing the tests in a submodule of the Type and 
+  marking it with the directive #[cfg(test)]    
 
 
 - Integration tests
    
-  It may be helpful to have integration tests where the library features can be verified from an external client point of view.
+  It may be helpful to have integration tests where the library features can be verified 
+  from an external client point of view.
