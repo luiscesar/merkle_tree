@@ -1,0 +1,39 @@
+Code Review
+-  Test test_generate_path_1 failed   
+
+   Because the required path is bottom-up and no top-down.  
+   In order to fix it, in lines 292 and 294: use push instead of insert
+       292:  Instead of merkle_path.insert(0, right_node):
+                 merkle_path.push(right_node);
+       294:  Instead of merkle_path.insert(0, left_node):
+                merkle_path.push(left_node);
+
+
+- Library crate   
+   
+   It may be helpful to structure the project as a library that can be used in order crates (microservices, software components)
+
+
+- Loops instead of recursive calls  
+
+  Recursive calls are very expressive but Tail Call Optimization is not implemented in Rust.   That means even if the the recursive call is a tail recursive, all recursive calls are stored in the Stack,   with the risk of having StackOverflow.
+
+
+- Abstract Data Type definition  
+
+  Using Abstract Data Types (ADT) may help to utilize separation of concerns during the design process.  Each ADT will describe a set of responsibilities: functions.  In Rust, Traits can be used to describe ADT.  In order to use Traits the types have to be expressed using struct or enum.
+
+
+- Software components: Module structure
+
+   It may be helpful to split the project into different software components: group of elements that collaborate to realize responsibilities (functions).   In Rust this can be achieved using modules.
+
+
+- Unit tests in a module   
+
+  It may be helpful to describe Types and its Unit Tests in different files, in order to have a better readiness as the Type declaration grows.   In Rust this can achieved writing the tests in a submodule of the Type and marking it with the directive #[cfg(test)]    
+
+
+- Integration tests
+   
+  It may be helpful to have integration tests where the library features can be verified from an external client point of view.
