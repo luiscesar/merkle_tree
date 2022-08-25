@@ -76,14 +76,9 @@ pub fn generate_tree_root(leaves_data: Vec<Vec<u8>>) -> Result<H256, Error> {
 fn recurse(nodes: &mut Vec<H256>) -> Vec<H256> {
     let mut processed_nodes = process_nodes_in_pairs(nodes);
 
-    loop {
-        if processed_nodes.len() > 1 {
-            processed_nodes = process_nodes_in_pairs(&mut processed_nodes);
-        } else {
-            break;
-        }
+    while processed_nodes.len() > 1 {
+        processed_nodes = process_nodes_in_pairs(&mut processed_nodes);
     }
-   
 
     return processed_nodes;
 }
@@ -150,7 +145,6 @@ pub fn gnereate_merkle_path(leaf: &Vec<u8>, leaves_data: Vec<Vec<u8>>) -> Result
         &mut merkle_path,
     );
 
-    merkle_path.reverse();
     return Ok(merkle_path);
 }
 
@@ -161,17 +155,12 @@ fn recruse_for_path(
 ) -> Vec<H256> {
     let mut processed_nodes =
         process_nodes_in_pairs_for_path(node_hash_in_leaf_branch, nodes, merkle_path);
-    loop {
-        if processed_nodes.len() > 1 {
-            processed_nodes = 
-                process_nodes_in_pairs_for_path(node_hash_in_leaf_branch, &processed_nodes, merkle_path);
-        } else {
-            println!("root {:?}", processed_nodes[0]);
-            merkle_path.push(processed_nodes[0]);
-            break;
-        } 
+    
+    while processed_nodes.len() > 1 {
+        processed_nodes = 
+            process_nodes_in_pairs_for_path(node_hash_in_leaf_branch, &processed_nodes, merkle_path);
     }
- 
+    
     return processed_nodes;
 }
 
@@ -201,10 +190,10 @@ fn process_nodes_in_pairs_for_path(
         if *node_hash_in_leaf_branch == left_node || *node_hash_in_leaf_branch == right_node {
             if *node_hash_in_leaf_branch == left_node {
                 //merkle_path.insert(0, right_node);
-                merkle_path.push(left_node);
+                merkle_path.push(right_node);
             } else {
                 //merkle_path.insert(0, left_node);
-                merkle_path.push(right_node);
+                merkle_path.push(left_node);
             }
             println!("node_hash_in_leaf_branch {:?}", node_hash_in_leaf_branch);
             println!("left_node {:?}", left_node);
