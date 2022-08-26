@@ -5,7 +5,7 @@ use primitive_types::H256;
 
 // ----------------- Integration Tests -----------------------------------
 #[test]
-fn integration_test_generate_root_1() {
+fn integration_test_merkle_tree_generate_root_1() {
     let mock_trees_roots = [
         "bc36789e7a1e281436464229828f817d6612f7b477d66591ff96a9e064bcc98a",
         "b2521d64679bc4720dabfbae7ce17947a5d373d987d3b0cc1e3042ba2054da4a",
@@ -35,12 +35,12 @@ fn integration_test_generate_root_1() {
 }
 
 #[test]
-fn integration_test_generate_root_2() {
+fn integration_test_merkle_tree_generate_root_2() {
     assert!(MerkleTree::generate_tree_root(get_n_nodes(0)).is_err());
 }
 
 #[test]
-fn integration_test_generate_root_3() {
+fn integration_test_merkle_tree_generate_root_3() {
     // resistance test
     let now = Instant::now();
     let longTest = get_n_nodes(1000000);
@@ -52,7 +52,7 @@ fn integration_test_generate_root_3() {
 }
 
 #[test]
-fn integration_test_generate_path_1() {
+fn integration_test_merkle_tree_generate_path_1() {
     let mocked_merkle_paths: Vec<(u8, usize, Vec<H256>)> = vec![
         // Mocked one node tree data [0]
         (1, 0, vec![]),
@@ -242,17 +242,17 @@ fn integration_test_generate_path_1() {
 }
 
 #[test]
-fn integration_test_generate_path_2() {
+fn integration_test_merkle_tree_generate_path_2() {
     assert!(MerkleTree::gnereate_merkle_path(&vec![0], get_n_nodes(0)).is_err());
 }
 
 #[test]
-fn integration_test_generate_path_3() {
+fn integration_test_merkle_tree_generate_path_3() {
     assert!(MerkleTree::gnereate_merkle_path(&vec![], get_n_nodes(1)).is_err());
 }
 
 #[test]
-fn integration_test_merkle_proof_1() {
+fn integration_test_merkle_tree_merkle_proof_1() {
     let mocked_merkle_paths: Vec<(u8, usize, Vec<H256>)> = vec![
         // Mocked one node tree data [0]
         (1, 0, vec![]),
@@ -443,12 +443,12 @@ fn integration_test_merkle_proof_1() {
 }
 
 #[test]
-fn integration_test_merkle_proof_2() {
+fn integration_test_merkle_tree_merkle_proof_2() {
     assert!(MerkleTree::merkle_proof(vec![0], get_n_nodes(0)).is_err());
 }
 
 #[test]
-fn integration_test_merkle_proof_3() {
+fn integration_test_merkle_tree_merkle_proof_3() {
     assert!(MerkleTree::merkle_proof(vec![], get_n_nodes(1)).is_err());
 }
 

@@ -45,10 +45,11 @@ fn test_generate_root_2() {
 fn test_generate_root_3() {
     // resistance test
     let now = Instant::now();
-    let longTest = get_n_nodes(1000000);
+    let longTest = get_n_nodes(1_000_000);
     println!("Number of nodes: {}", longTest.len());
     println!("Creating leaves: {}", now.elapsed().as_millis());
 
+    //let now = Instant::now();
     assert!(!MerkleTree::generate_tree_root(longTest).is_err());
     println!("Building tree: {}", now.elapsed().as_millis());
 }
