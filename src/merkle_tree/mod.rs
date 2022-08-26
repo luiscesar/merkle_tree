@@ -26,6 +26,7 @@
 //
 // 2. Improve the code if you are able. Ensure it builds and runs, and that tests pass.
 
+// New: Tests in separated module
 #[cfg(test)]
 mod tests;
 
@@ -36,13 +37,15 @@ use serde::{Deserialize, Serialize};
 use sp_core::{hashing::keccak_256, H256};
 use std::fs;
 
+// New: ADT
 pub trait AbstractMerkleTree {
     fn generate_tree_root(leaves_data: Vec<Vec<u8>>) -> Result<H256, Error>;
     fn gnereate_merkle_path(leaf: &Vec<u8>, leaves_data: Vec<Vec<u8>>) -> Result<Vec<H256>, Error>;
-    // Possible new function for the abstract data type
+    // New: Possible new function for the abstract data type
     fn merkle_proof(leaf: Vec<u8>, leaves_data: Vec<Vec<u8>>) -> Result<MerklePathData, Error>;
 }
 
+// New: Concrete type
 pub struct MerkleTree;
 
 #[derive(Clone, Serialize, Deserialize, Debug)]
@@ -57,6 +60,7 @@ pub struct MerklePathData {
 // Vector of bytes that represents abi encoded leaf data
 pub type EncodedLeafData = Vec<u8>;
 
+// New: Implementation of ADT by concrete type
 impl AbstractMerkleTree for MerkleTree {
     // Generates a merkle tree and returns the root hash
     fn generate_tree_root(leaves_data: Vec<Vec<u8>>) -> Result<H256, Error> {
@@ -125,7 +129,10 @@ impl AbstractMerkleTree for MerkleTree {
     }
 }
 
+// New: Associated functions of concrete type
 impl MerkleTree {
+
+    // New: Loop instead of recursive call
     // Keys:
     //  N: number of nodes
     //  i: index of sum
@@ -170,6 +177,7 @@ impl MerkleTree {
         return processed_nodes;
     }
 
+    // New: Loop instead of recursive call
     fn recruse_for_path(
         node_hash_in_leaf_branch: &mut H256,
         nodes: &Vec<H256>,
@@ -218,9 +226,11 @@ impl MerkleTree {
             if *node_hash_in_leaf_branch == left_node || *node_hash_in_leaf_branch == right_node {
                 if *node_hash_in_leaf_branch == left_node {
                     //merkle_path.insert(0, right_node);
+                    // New: push instead of insert
                     merkle_path.push(right_node);
                 } else {
                     //merkle_path.insert(0, left_node);
+                    // New: push instead of insert
                     merkle_path.push(left_node);
                 }
                 *node_hash_in_leaf_branch = node_hash;

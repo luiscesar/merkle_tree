@@ -254,6 +254,7 @@ fn test_generate_path_3() {
     assert!(MerkleTree::gnereate_merkle_path(&vec![], get_n_nodes(1)).is_err());
 }
 
+// New: Tests for possible new function
 #[test]
 fn test_merkle_proof_1() {
     let mocked_merkle_paths: Vec<(u8, usize, Vec<H256>)> = vec![
