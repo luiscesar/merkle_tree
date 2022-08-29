@@ -134,7 +134,6 @@ impl AbstractMerkleTree for MerkleTree {
 
 // New: Associated functions of concrete type
 impl MerkleTree {
-
     // New: Loop instead of recursive call
     // Keys:
     //  N: number of nodes

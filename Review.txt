@@ -8,7 +8,7 @@ Code Review
   that generates the tree under heavy loads.
 
 
-- Test test_generate_path_1 failed   
+- Test test_generate_path_1 failed  
 
    Because the required path is bottom-up and not top-down.  
    In order to fix it, in lines 292 and 294, use push instead of insert.
@@ -22,48 +22,58 @@ Code Review
                 merkle_path.push(left_node);
 
 
-- Library crate   
+- Library crate  
    
    It may be helpful to structure the project as a library
    which can be used in other crates (microservices, software components)
 
 
-- Loops v recursive calls 
+- Loops v recursive calls
 
   Recursive calls are very expressive but Tail Call Optimization is not implemented in Rust.  
   That means even if the recursive call is a tail recursive one,
   all recursive calls are stored in Stack, with the risk of having Stack Overflow.
  
 
-- Abstract Data Type definition 
+- Abstract Data Type definition
 
   Using Abstract Data Types (ADT) may help to utilize separation of concerns
   during the design process.
 
-  Each ADT will be described by a set of responsibilities: functions. 
+  Each ADT will be described by a set of responsibilities: functions.
 
   Also, it can be used as a contract to be implemented by a concrete type or by a software component (group of types collaborating with each other).
  
   Moreover, it may help the maintenance as the contract may be the same (client code may need small changes)
   and the implementation may vary.
  
-  In Rust, ADTs can be realized using Traits. 
+  In Rust, ADTs can be realized using Traits.
   In order to use Traits, concrete types have to be expressed using struct or enum.
 
+- Balanced Merkle Tree
+   
+  The current implementation does not generate a balanced binary tree in all cases.
+  It may be useful to have a balanced implementation for all cases.
+  A possible implementation called BalancedMerkleTree has been proposed.
 
+- All types defined inside the components (modules)
+  It may help the maintenance to have all types that belong to function signatures
+  that are exported defined inside the component (module).
+  This may also include the Error types.
+ 
 - Software components: Module structure
 
-   It may be helpful to split the project into different software components: 
+   It may be helpful to split the project into different software components:
 groups of computational elements (types, modules, funcitions) collaborating with each other in order to realize specified features.
    
    In Rust this can be achieved using modules.
 
 
-- Unit tests in a separated module   
+- Unit tests in a separated module  
 
   It may be helpful to describe Types and their Unit Tests in different files.
 
-  This may provide a better readiness in case that the Type declaration (set of functions) grows or the test cases increase.   
+  This may provide a better readiness in case that the Type declaration (set of functions) grows or the test cases increase.  
  
   In Rust this can achieved by writing the tests in a submodule of the Type called tests and
   marking it with the attribute #[cfg(test)]    

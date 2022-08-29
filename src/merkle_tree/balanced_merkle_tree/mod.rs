@@ -1,10 +1,8 @@
+use super::{AbstractMerkleTree, MerklePathData};
 use jsonrpc_core::{Error, ErrorCode};
 use sp_core::{hashing::keccak_256, H256};
-use super::{AbstractMerkleTree, MerklePathData};
-
 
 pub struct BalancedMerkleTree;
-
 
 impl AbstractMerkleTree for BalancedMerkleTree {
     // Generates a merkle tree and returns the root hash
@@ -76,7 +74,6 @@ impl AbstractMerkleTree for BalancedMerkleTree {
 
 // New: Associated functions of concrete type
 impl BalancedMerkleTree {
-
     // New: Loop instead of recursive call
     // Keys:
     //  N: number of nodes
@@ -88,7 +85,7 @@ impl BalancedMerkleTree {
         }
         let number_last_level_leaves = get_number_last_level_leaves(nodes.len());
 
-        let mut processed_nodes = 
+        let mut processed_nodes =
             BalancedMerkleTree::process_nodes_in_pairs(&nodes[0..number_last_level_leaves]);
 
         processed_nodes.extend_from_slice(&nodes[number_last_level_leaves..]);
@@ -105,7 +102,7 @@ impl BalancedMerkleTree {
     fn process_nodes_in_pairs(nodes: &[H256]) -> Vec<H256> {
         let mut processed_nodes: Vec<H256> = vec![];
         if nodes.len() == 1 {
-            processed_nodes.push(*nodes.last().unwrap());
+            processed_nodes.push(nodes[0]);
             return processed_nodes;
         }
         for index in 0..nodes.len() / 2 {
@@ -136,11 +133,18 @@ impl BalancedMerkleTree {
         nodes: &Vec<H256>,
         merkle_path: &mut Vec<H256>,
     ) -> Vec<H256> {
+        if nodes.len() == 0 {
+            return vec![];
+        }
+        let number_last_level_leaves = get_number_last_level_leaves(nodes.len());
+
         let mut processed_nodes = BalancedMerkleTree::process_nodes_in_pairs_for_path(
             node_hash_in_leaf_branch,
-            nodes,
+            &nodes[0..number_last_level_leaves],
             merkle_path,
         );
+
+        processed_nodes.extend_from_slice(&nodes[number_last_level_leaves..]);
 
         while processed_nodes.len() > 1 {
             processed_nodes = BalancedMerkleTree::process_nodes_in_pairs_for_path(
@@ -155,10 +159,11 @@ impl BalancedMerkleTree {
 
     fn process_nodes_in_pairs_for_path(
         node_hash_in_leaf_branch: &mut H256,
-        nodes: &Vec<H256>,
+        nodes: &[H256],
         merkle_path: &mut Vec<H256>,
     ) -> Vec<H256> {
         let mut processed_nodes: Vec<H256> = vec![];
+
         for index in 0..nodes.len() / 2 {
             let left_node = nodes[2 * index];
             let right_node = nodes[2 * index + 1];
@@ -191,20 +196,16 @@ impl BalancedMerkleTree {
             processed_nodes.push(node_hash);
         }
 
-        if nodes.len() % 2 == 1 {
-            processed_nodes.push(*nodes.last().unwrap());
-        }
-
         return processed_nodes;
     }
 }
 
 fn get_number_last_level_leaves(n: usize) -> usize {
     let t = f64::log2(n as f64) as usize;
-    if n == usize::pow(2,t as u32) {
+    if n == usize::pow(2, t as u32) {
         n
     } else {
-        let m = 2 * n - usize::pow(2, (t+1) as u32);
+        let m = 2 * n - usize::pow(2, (t + 1) as u32);
         m
     }
 }
