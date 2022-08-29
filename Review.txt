@@ -50,16 +50,56 @@ Code Review
   In Rust, ADTs can be realized using Traits.
   In order to use Traits, concrete types have to be expressed using struct or enum.
 
+
 - Balanced Merkle Tree
    
   The current implementation does not generate a balanced binary tree in all cases.
   It may be useful to have a balanced implementation for all cases.
   A possible implementation called BalancedMerkleTree has been proposed.
+ 
+  Let n be the number of leaves.
+  For example:
+  When n = 5 the current implementation generates the following tree:
+
+                                            h(h(h(h(1)||h(2))||h(h(3)||h(4)))||h(5))
+ 
+                      h(h(h(1)||h(2))||h(h(3)||h(4)))                               h(5)    
+         
+            h(h(1)||h(2))                         h(h(3)||h(4))
+   
+        h(1)              h(2)                 h(3)             h(4)
+
+
+And the balanced one generates the tree:
+                                          h(h(h(h(1)||h(2))||h(3)||h(h(4)||h(5)))
+
+                     h(h(h(1)||h(2))||h(3)                                         h(h(4)||h(5))
+
+        h(h(1)||h(2))                     h(3)                                  h(4)             h(5)
+
+    h(1)             h(2)
+
+In general:
+If n = 2^t for t > 0, integer, the leaves are the leaves of a complete tree, and they are at level t.
+If n = 2^t + y for t, 0 < y < 2^t, integers, the leaves are split in two levels: t+1 and t.
+In order to have a balanced tree it is necessary to know which number of leaves is at t+1 and which at level t.
+Moreover, in the way that the hash tree is constructed we can assume that all nodes have a number even of children.
+Thus the level t + 1 will incompleted with the number even of nodes and level t will be completed with 2^t nodes.
+Therefore in order to know the number of leaves at level t+1 and at level t, respectively,
+the following equation system has to be solved:
+   
+  (n - x) = 2 * q
+    x + q = 2^t
+
+where x is the number of leaves at level t and 2 * q is the number of leaves at level t+1.
+
 
 - All types defined inside the components (modules)
-  It may help the maintenance to have all types that belong to function signatures
-  that are exported defined inside the component (module).
-  This may also include the Error types.
+
+  It may help the maintenance to have all types that belong to the function signatures
+  that are exported, defined inside the component (module).
+  This will also include the Error types.
+  This may imply having internal Error type definitions or wrapping certain Rust standard types.
  
 - Software components: Module structure
 
