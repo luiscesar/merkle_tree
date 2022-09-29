@@ -36,12 +36,12 @@ fn test_balanced_merkle_tree_generate_root_2() {
 fn test_balanced_merkle_tree_generate_root_3() {
     // resistance test
     let now = Instant::now();
-    let longTest = get_n_nodes(1_000_000);
-    println!("Number of nodes: {}", longTest.len());
+    let long_test = get_n_nodes(1_000_000);
+    println!("Number of nodes: {}", long_test.len());
     println!("Creating leaves: {}", now.elapsed().as_millis());
 
     let now = Instant::now();
-    assert!(!BalancedMerkleTree::generate_tree_root(longTest).is_err());
+    assert!(!BalancedMerkleTree::generate_tree_root(long_test).is_err());
     println!("Building tree: {}", now.elapsed().as_millis());
 }
 

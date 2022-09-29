@@ -72,13 +72,7 @@ impl AbstractMerkleTree for BalancedMerkleTree {
     }
 }
 
-// New: Associated functions of concrete type
 impl BalancedMerkleTree {
-    // New: Loop instead of recursive call
-    // Keys:
-    //  N: number of nodes
-    //  i: index of sum
-    // Sum_i=1^log(N) O(N/2^(i+1)) = O(N)
     fn recurse(nodes: &mut Vec<H256>) -> Vec<H256> {
         if nodes.len() == 0 {
             return vec![];
@@ -97,8 +91,6 @@ impl BalancedMerkleTree {
         return processed_nodes;
     }
 
-    // Keys: N - number of nodes
-    // O(N/2)
     fn process_nodes_in_pairs(nodes: &[H256]) -> Vec<H256> {
         let mut processed_nodes: Vec<H256> = vec![];
         if nodes.len() == 1 {
@@ -127,7 +119,6 @@ impl BalancedMerkleTree {
         return processed_nodes;
     }
 
-    // New: Loop instead of recursive call
     fn recruse_for_path(
         node_hash_in_leaf_branch: &mut H256,
         nodes: &Vec<H256>,
@@ -183,12 +174,8 @@ impl BalancedMerkleTree {
             let node_hash = H256::from_slice(&keccak_256(&node));
             if *node_hash_in_leaf_branch == left_node || *node_hash_in_leaf_branch == right_node {
                 if *node_hash_in_leaf_branch == left_node {
-                    //merkle_path.insert(0, right_node);
-                    // New: push instead of insert
                     merkle_path.push(right_node);
                 } else {
-                    //merkle_path.insert(0, left_node);
-                    // New: push instead of insert
                     merkle_path.push(left_node);
                 }
                 *node_hash_in_leaf_branch = node_hash;
