@@ -17,5 +17,5 @@ Merkle Trees provide an efficient way to prove this inclusion in the tree.
 It is enough to show a path of neighbour-nodes from the leaf to the root.
 That is, a list that includes the sibling of the leaf node, then the sibling of its parent and so on until the root is reached.
 
-Here a balanced Merkle tree is shown.
+Here a balanced Merkle tree implementation is shown.
 
