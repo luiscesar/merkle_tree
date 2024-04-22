@@ -4,8 +4,7 @@ use primitive_types::H256;
 
 use crate::merkle_tree::{balanced_merkle_tree::BalancedMerkleTree, AbstractMerkleTree};
 
-// Tests init
-
+// All tests
 #[test]
 fn test_balanced_merkle_tree_generate_tree_root() {
     let mock_trees_roots = [
