@@ -19,3 +19,5 @@ That is, a list that includes the sibling of the leaf node, then the sibling of 
 
 Here a balanced Merkle tree implementation is shown.
 
+#Example
+
